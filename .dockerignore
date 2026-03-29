@@ -1,0 +1,38 @@
+# Git
+.git
+.gitignore
+.gitmodules
+
+# Discord bot — not needed in web image
+discord_bot.py
+requirements-bot.txt
+constants.py.example
+constants.py
+
+# Tests and examples
+scanner_test.py
+testdata/
+examples/
+
+# Variations tool (separate project)
+variations/
+
+# Documentation
+*.md
+LICENSE
+
+# Python artefacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.mypy_cache/
+.pytest_cache/
+.venv/
+*.egg-info/
+
+# Editor/OS
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

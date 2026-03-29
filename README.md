@@ -1,52 +1,159 @@
-# CatalogScanner [![Python version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+# CatalogScanner — Web UI
 
-Script to scan video or screenshots of user scrolling through their AC:NH Nook Shop catalog, DIY recipes list, critters, song list, reactions and more.
+> A self-hosted web interface for [CatalogScanner](https://github.com/EhsanKia/CatalogScanner) by **Ehsan Kia**.  
+> Scan your *Animal Crossing: New Horizons* catalog, recipes, critters, songs and reactions — without Discord.
 
-This is the source code for the Twitter bot [@CatalogScanner](https://twitter.com/CatalogScanner), which is an automated version of this.
+![Python](https://img.shields.io/badge/python-3.11-blue?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green?logo=fastapi&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Built with GitHub Copilot](https://img.shields.io/badge/built%20with-GitHub%20Copilot-8957e5?logo=github&logoColor=white)
 
-## Installation
+---
 
-This script requires [Python 3](https://www.python.org/downloads/release/python-377/) and [Tesseract-OCR](https://github.com/tesseract-ocr/tesseract/wiki) to work.
+## What is this?
 
-You can then install the required libraries using pip and requirements.txt:
+The original **CatalogScanner** is a Python + OCR tool that reads video or screenshot recordings of in-game menus from *Animal Crossing: New Horizons* and extracts the full list of items you own. It was built to power a Twitter bot and a Discord bot.
 
-```shell
+This fork adds a **self-hosted web UI** — a FastAPI server with a browser-based interface — so you can run it as a local app (e.g. on a home server like TrueNAS SCALE) without needing Discord or any cloud services.
+
+**What's new in this fork:**
+
+| Added file | Purpose |
+|---|---|
+| `web_app.py` | FastAPI server — handles file uploads and calls `scan_media()` |
+| `templates/index.html` | Single-page web UI (Animal Crossing-themed, fully responsive) |
+| `Dockerfile` | Container image with Python 3.11, Tesseract OCR and all dependencies |
+| `docker-compose.yml` | Ready-to-use Compose config for TrueNAS SCALE or any Docker host |
+
+---
+
+## Features
+
+- **Drag & drop** upload of video (MP4, MOV, AVI, MKV) or screenshots (PNG, JPG)
+- Auto-detect or manual selection of **scan mode** (Catalog, DIY Recipes, Critters, Reactions, K.K. Songs)
+- **14 languages / locales** supported (same as the original scanner)
+- Optional **for-sale filter** (catalog mode)
+- Results displayed in a searchable table
+- **Copy to clipboard** and **Export as .txt**
+- Animated progress bar during scanning
+- Fully responsive — works on mobile browsers
+- Animal Crossing cozy beige/brown/green theme 🍂
+
+---
+
+## How it works
+
+```
+Browser  →  HTTP POST /scan (multipart file)
+              ↓
+          web_app.py  →  scanner.scan_media()
+                              ↓
+                        OpenCV reads video frames
+                              ↓
+                        Tesseract OCR extracts text
+                              ↓
+                        Fuzzy-matched against item database (JSON)
+                              ↓
+          JSON response with { mode, locale, count, items[], unmatched[] }
+              ↓
+Browser  →  Renders table, enables filter/copy/export
+```
+
+The core scanning logic is **unchanged** from the original project — this fork only adds the HTTP layer on top.
+
+---
+
+## Requirements
+
+- **Docker** (recommended) — or Python 3.11+ with Tesseract OCR installed locally
+- At least **1 GB RAM** (Tesseract + OpenCV are memory-hungry)
+- Video files must be **720p or 1080p** recordings of scrolling through in-game menus
+
+---
+
+## Installation & Usage
+
+### Option A — Docker (recommended)
+
+```bash
+# 1. Clone this repo
+git clone https://github.com/<your-username>/CatalogScanner.git
 cd CatalogScanner
-python3 -m venv .env
-.env/Scripts/activate
+
+# 2. Build the Docker image
+docker build -t catalog-scanner:latest .
+
+# 3. Run
+docker compose up -d
+```
+
+Open `http://localhost:8086` in your browser.
+
+---
+
+### Option B — TrueNAS SCALE (Custom App via YAML)
+
+1. Build the image over SSH on your TrueNAS box:
+
+```bash
+ssh admin@<truenas-ip>
+cd /mnt/<pool>/catalog-scanner
+docker build -t catalog-scanner:latest .
+mkdir -p /mnt/<pool>/catalog-scanner/tmp
+```
+
+2. In the TrueNAS UI: **Apps → Install via YAML**, paste the contents of `docker-compose.yml` and click **Save**.
+
+3. The app will appear in your Apps list and can be started/stopped from the UI.
+
+---
+
+### Option C — Local Python (no Docker)
+
+Requirements: Python 3.11+, [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) with language packs installed.
+
+```bash
 pip install -r requirements.txt
+pip install fastapi "uvicorn[standard]" jinja2 python-multipart
+
+uvicorn web_app:app --host 0.0.0.0 --port 8086
 ```
 
-## Usage
+---
 
-Before using this script, you need to create a valid video file. There are many types of supported media.
-For the full list alongside instructions for each, check out <https://nook.lol>.
+## Configuration
 
-### Scanning the media
+The port is set in `docker-compose.yml` (default: **8086**). To change it:
 
-Once you have your video file, you can pass it as the first argument to the script:
-
-```sh
-python scanner.py catalog.mp4
+```yaml
+ports:
+  - "YOUR_PORT:8086"
 ```
 
-If you have screenshots, you can pass it as is if there is a single one, otherwise you need
-to number them starting with 0 and pass the filename with `%d` instead of the numbers.
+The `TESSDATA_PREFIX` environment variable points to Tesseract's data directory — set automatically inside the Docker image.
 
-```sh
-python scanner.py catalog_%d.png
-```
+---
 
-By default, it will detect the media type (catalog, recipes, etc), but you can force on with `--mode`.
+## Credits & Attribution
 
-You can use `--for_sale` to filter out items that are not purchasable,
-and you can use `--locale` to adjust the parsed language.
-By default, the script prints out the name of all the items found in your catalog video.
+This project is a fork of and fully based on **CatalogScanner** by [Ehsan Kia](https://github.com/EhsanKia):
 
-## Credits
+> **Original repository:** https://github.com/EhsanKia/CatalogScanner  
+> **License:** MIT — Copyright (c) 2020 Ehsan Kia
 
-The item name data comes from:
+All core scanning logic (`scanner.py`, `catalog.py`, `recipes.py`, `critters.py`, `music.py`, `reactions.py`, `storage.py`, `common.py`) and item data (`items/`, `critters/`, `music/`, `recipes/`, `reactions/`) belong to the original project and its contributors.
 
-- <https://tinyurl.com/acnh-sheet>
-- <https://github.com/imthe666st/ACNH>
-- <https://github.com/alexislours/translation-sheet-data>
+The web UI layer (FastAPI server, HTML/CSS interface, Dockerfile, Compose config) was developed with the assistance of **GitHub Copilot**.
+
+Item name data from the original project comes from:
+- https://tinyurl.com/acnh-sheet
+- https://github.com/imthe666st/ACNH
+- https://github.com/alexislours/translation-sheet-data
+
+---
+
+## License
+
+This fork is distributed under the same **MIT License** as the original project.  
+See [LICENSE](LICENSE) for details.

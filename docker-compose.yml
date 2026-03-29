@@ -1,0 +1,11 @@
+services:
+  catalog-scanner:
+    image: catalog-scanner:latest
+    container_name: catalog-scanner
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    volumes:
+      - /mnt/main/containers/custom-apps/catalog-scanner/tmp:/tmp
+    environment:
+      TESSDATA_PREFIX: /usr/share/tesseract-ocr/5/tessdata
