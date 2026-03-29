@@ -78,8 +78,8 @@ The core scanning logic is **unchanged** from the original project — this fork
 
 ```bash
 # 1. Clone this repo
-git clone https://github.com/<your-username>/CatalogScanner.git
-cd CatalogScanner
+git clone https://github.com/adv3r/CatalogScanner-WebUI.git
+cd CatalogScanner-WebUI
 
 # 2. Build the Docker image
 docker build -t catalog-scanner:latest .
