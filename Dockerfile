@@ -13,15 +13,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tesseract-ocr-rus \
     tesseract-ocr-chi-sim \
     tesseract-ocr-chi-tra \
+    tesseract-ocr-script-latn \
     libgl1 \
     libglib2.0-0 \
     libsm6 \
     libxrender1 \
     libxext6 \
     ffmpeg \
+    && mkdir -p /usr/share/tesseract-ocr/5/tessdata/script \
+    && ln -s /usr/share/tesseract-ocr/5/tessdata/Latin.traineddata \
+             /usr/share/tesseract-ocr/5/tessdata/script/Latin.traineddata \
     && rm -rf /var/lib/apt/lists/*
-
-COPY Latin.traineddata /usr/share/tesseract-ocr/5/tessdata/script/Latin.traineddata
 
 RUN useradd -r -u 1001 -s /bin/false appuser
 

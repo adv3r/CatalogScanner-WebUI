@@ -7,6 +7,7 @@ import uuid
 
 from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 import scanner
@@ -17,6 +18,7 @@ ALLOWED_EXTENSIONS = {".mp4", ".mov", ".avi", ".mkv", ".png", ".jpg", ".jpeg"}
 MAX_FILE_SIZE = 500 * 1024 * 1024  # 500 MB in bytes
 
 app = FastAPI(title="CatalogScanner Web")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 SCAN_MODES = ["auto", "catalog", "recipes", "critters", "reactions", "music"]

@@ -8,525 +8,50 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --sand:       #f5edd6;
-      --sand-dark:  #ecdbb8;
-      --cream:      #fdf8ee;
-      --parchment:  #f9f0d8;
-      --brown:      #8b5e3c;
-      --brown-dark: #6b4228;
-      --brown-light:#c49a6c;
-      --brown-pale: #e8d5b7;
-      --leaf:       #48b679;
-      --leaf-dark:  #309071;
-      --mushroom:   #d4896a;
-      --mushroom-dk:#b86845;
-      --sky:        #aadff5;
-      --sky-dark:   #5fb8e0;
-      --text:       #3d2b1f;
-      --text-mid:   #7a5c42;
-      --text-light: #b89b7a;
-      --red-soft:   #d96b5a;
-      --red-bg:     #fde8e4;
-      --radius-sm:  8px;
-      --radius-md:  16px;
-      --radius-lg:  24px;
-      --shadow:     0 6px 32px rgba(139,94,60,0.13);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
-      background-color: var(--sand);
-      background-image:
-        radial-gradient(circle at 15% 20%, rgba(122,182,72,0.08) 0%, transparent 50%),
-        radial-gradient(circle at 85% 80%, rgba(170,223,245,0.12) 0%, transparent 50%),
-        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238b5e3c' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      color: var(--text);
-      min-height: 100vh;
-      padding: 0 0 64px;
-    }
-
-    /* ── Header ─────────────────────────────────────────── */
-    .site-header {
-      background: linear-gradient(135deg, var(--brown) 0%, var(--brown-dark) 100%);
-      color: #fff;
-      text-align: center;
-      padding: 40px 20px 48px;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: -24px;
-    }
-    .site-header::before {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 32px;
-      background: var(--sand);
-      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    }
-    .deco-strip {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 6px;
-      background: repeating-linear-gradient(
-        90deg,
-        var(--leaf) 0px, var(--leaf) 20px,
-        var(--mushroom) 20px, var(--mushroom) 40px,
-        var(--sky-dark) 40px, var(--sky-dark) 60px,
-        #f5c842 60px, #f5c842 80px
-      );
-    }
-    .site-header .emoji-row {
-      font-size: 2rem;
-      letter-spacing: 6px;
-      margin-bottom: 10px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-    .site-header h1 {
-      font-size: clamp(1.7rem, 5vw, 2.6rem);
-      font-weight: 900;
-      color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.25);
-      letter-spacing: -0.5px;
-    }
-    .site-header h1 span { color: #ffe88a; }
-    .site-header p {
-      margin-top: 8px;
-      font-size: clamp(0.85rem, 2.5vw, 1rem);
-      color: rgba(255,255,255,0.78);
-      max-width: 480px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* ── Layout wrapper ──────────────────────────────────── */
-    .wrapper {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 40px 16px 0;
-    }
-
-    /* ── Card ────────────────────────────────────────────── */
-    .card {
-      background: var(--cream);
-      border: 2.5px solid var(--brown-pale);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-      padding: clamp(20px, 5vw, 32px);
-      margin-bottom: 24px;
-    }
-    .card-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--brown-dark);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 2px dashed var(--brown-pale);
-    }
-
-    /* ── Form ────────────────────────────────────────────── */
-    .form-row { margin-bottom: 18px; }
-    label {
-      display: block;
-      font-weight: 800;
-      font-size: 0.78rem;
-      margin-bottom: 6px;
-      color: var(--text-mid);
-      text-transform: uppercase;
-      letter-spacing: .07em;
-    }
-    select {
-      width: 100%;
-      padding: 11px 14px;
-      border: 2px solid var(--brown-pale);
-      border-radius: var(--radius-sm);
-      font-size: 0.95rem;
-      font-family: inherit;
-      font-weight: 600;
-      background: var(--parchment);
-      color: var(--text);
-      outline: none;
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b5e3c' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 36px;
-      transition: border-color .2s, box-shadow .2s;
-    }
-    select:focus {
-      border-color: var(--brown);
-      box-shadow: 0 0 0 3px rgba(139,94,60,0.15);
-    }
-
-    .drop-zone {
-      border: 3px dashed var(--brown-light);
-      border-radius: var(--radius-md);
-      background: var(--parchment);
-      padding: clamp(24px, 5vw, 40px) 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: background .2s, border-color .2s, transform .15s;
-      position: relative;
-    }
-    .drop-zone:hover, .drop-zone.dragover {
-      background: var(--sand-dark);
-      border-color: var(--brown);
-      transform: scale(1.01);
-    }
-    .drop-zone .dz-icon { font-size: 2.8rem; line-height: 1; }
-    .drop-zone .dz-title {
-      font-size: 1rem;
-      font-weight: 800;
-      color: var(--brown-dark);
-      margin: 10px 0 4px;
-    }
-    .drop-zone .dz-sub { font-size: 0.8rem; color: var(--text-light); font-weight: 600; }
-    .drop-zone input[type="file"] {
-      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-    }
-    #file-name {
-      margin-top: 10px;
-      font-size: 0.88rem;
-      color: var(--brown);
-      font-weight: 700;
-      min-height: 20px;
-      text-align: center;
-    }
-
-    .row-2col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    @media (max-width: 480px) { .row-2col { grid-template-columns: 1fr; } }
-
-    .checkbox-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      background: var(--parchment);
-      border: 2px solid var(--brown-pale);
-      border-radius: var(--radius-sm);
-      padding: 12px 14px;
-    }
-    .checkbox-row input[type="checkbox"] {
-      width: 20px; height: 20px;
-      accent-color: var(--leaf);
-      cursor: pointer;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-    .checkbox-row .cb-label {
-      font-size: 0.93rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.4;
-      text-transform: none;
-      letter-spacing: 0;
-      margin: 0;
-    }
-    .checkbox-row .cb-label small {
-      display: block;
-      font-weight: 600;
-      color: var(--text-light);
-      font-size: 0.8rem;
-      margin-top: 2px;
-    }
-
-    .btn-submit {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, var(--leaf) 0%, var(--leaf-dark) 100%);
-      color: #fff;
-      font-size: 1.05rem;
-      font-weight: 900;
-      font-family: inherit;
-      border: none;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: filter .2s, transform .15s, box-shadow .2s;
-      box-shadow: 0 4px 0 var(--leaf-dark), 0 6px 16px rgba(90,144,48,0.25);
-      letter-spacing: .02em;
-      margin-top: 4px;
-    }
-    .btn-submit:hover:not(:disabled) {
-      filter: brightness(1.07);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 0 var(--leaf-dark), 0 10px 20px rgba(90,144,48,0.3);
-    }
-    .btn-submit:active:not(:disabled) {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 var(--leaf-dark), 0 2px 8px rgba(90,144,48,0.2);
-    }
-    .btn-submit:disabled {
-      background: var(--brown-light);
-      box-shadow: 0 4px 0 #a07848;
-      cursor: not-allowed;
-      filter: none;
-    }
-
-    /* ── Progress ─────────────────────────────────────────── */
-    #progress-wrap { display: none; margin-top: 20px; }
-    .progress-bar-track {
-      width: 100%;
-      height: 12px;
-      background: var(--brown-pale);
-      border-radius: 99px;
-      overflow: hidden;
-      border: 2px solid var(--brown-light);
-    }
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: repeating-linear-gradient(
-        -45deg,
-        var(--leaf) 0px, var(--leaf) 10px,
-        var(--leaf-dark) 10px, var(--leaf-dark) 20px
-      );
-      background-size: 28px 28px;
-      border-radius: 99px;
-      transition: width .3s;
-      animation: stripes 1s linear infinite;
-    }
-    @keyframes stripes { from { background-position: 0 0; } to { background-position: 28px 0; } }
-    #progress-label {
-      text-align: center;
-      font-size: 0.88rem;
-      color: var(--text-mid);
-      margin-top: 10px;
-      font-weight: 700;
-    }
-    .nook-dots::after {
-      content: '';
-      display: inline-block;
-      animation: dots 1.4s steps(4, end) infinite;
-    }
-    @keyframes dots {
-      0%   { content: ''; }
-      25%  { content: '.'; }
-      50%  { content: '..'; }
-      75%  { content: '...'; }
-      100% { content: ''; }
-    }
-
-    /* ── Alert ───────────────────────────────────────────── */
-    .alert {
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      font-size: 0.92rem;
-      font-weight: 700;
-      margin-top: 16px;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-    .alert-error { background: var(--red-bg); color: var(--red-soft); border: 2px solid #f4bcb2; }
-
-    /* ── Results ─────────────────────────────────────────── */
-    #results { display: none; }
-    .results-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .badge {
-      background: var(--mushroom);
-      color: #fff;
-      border-radius: 99px;
-      padding: 4px 14px;
-      font-size: 0.82rem;
-      font-weight: 800;
-      box-shadow: 0 2px 0 var(--mushroom-dk);
-    }
-    .meta-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-    .meta-chip {
-      background: var(--parchment);
-      border: 2px solid var(--brown-pale);
-      border-radius: 99px;
-      padding: 5px 14px;
-      font-size: 0.82rem;
-      color: var(--text-mid);
-      font-weight: 600;
-    }
-    .meta-chip span { font-weight: 800; color: var(--brown-dark); }
-
-    /* Toolbar */
-    .toolbar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-    .toolbar input[type="search"] {
-      flex: 1;
-      min-width: 140px;
-      padding: 10px 14px;
-      border: 2px solid var(--brown-pale);
-      border-radius: var(--radius-sm);
-      font-size: 0.93rem;
-      font-family: inherit;
-      font-weight: 600;
-      background: var(--parchment);
-      color: var(--text);
-      outline: none;
-      transition: border-color .2s;
-    }
-    .toolbar input[type="search"]:focus { border-color: var(--brown); }
-    .btn-tool {
-      padding: 10px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      font-family: inherit;
-      font-weight: 800;
-      cursor: pointer;
-      transition: filter .15s, transform .1s;
-      border: 2px solid transparent;
-      white-space: nowrap;
-    }
-    .btn-tool:active { transform: scale(.96); }
-    .btn-copy {
-      background: var(--parchment);
-      border-color: var(--brown-pale);
-      color: var(--brown-dark);
-    }
-    .btn-copy:hover { background: var(--sand-dark); }
-    .btn-export {
-      background: linear-gradient(135deg, var(--sky-dark), #3a9fc8);
-      color: #fff;
-      box-shadow: 0 3px 0 #2a7fa8;
-    }
-    .btn-export:hover { filter: brightness(1.08); }
-
-    /* Table */
-    .table-wrap {
-      max-height: 460px;
-      overflow-y: auto;
-      border: 2.5px solid var(--brown-pale);
-      border-radius: var(--radius-md);
-      background: var(--parchment);
-    }
-    .table-wrap::-webkit-scrollbar { width: 8px; }
-    .table-wrap::-webkit-scrollbar-track { background: var(--parchment); }
-    .table-wrap::-webkit-scrollbar-thumb { background: var(--brown-light); border-radius: 99px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
-    thead th {
-      position: sticky;
-      top: 0;
-      background: var(--sand-dark);
-      padding: 10px 14px;
-      text-align: left;
-      font-size: 0.75rem;
-      color: var(--text-mid);
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      font-weight: 800;
-      border-bottom: 2px solid var(--brown-pale);
-    }
-    tbody tr { transition: background .12s; }
-    tbody tr:nth-child(even) { background: rgba(139,94,60,0.04); }
-    tbody tr:hover { background: var(--sand-dark); }
-    tbody td {
-      padding: 9px 14px;
-      border-bottom: 1px solid var(--brown-pale);
-      color: var(--text);
-      font-weight: 600;
-    }
-    tbody tr:last-child td { border-bottom: none; }
-    .num-cell { color: var(--text-light); font-size: 0.8rem; width: 44px; font-weight: 700; }
-
-    /* Unmatched section */
-    details {
-      margin-top: 16px;
-      border: 2px solid #f4bcb2;
-      border-radius: var(--radius-sm);
-      background: var(--red-bg);
-      overflow: hidden;
-    }
-    details summary {
-      padding: 12px 14px;
-      font-weight: 800;
-      font-size: 0.9rem;
-      color: var(--red-soft);
-      cursor: pointer;
-      user-select: none;
-    }
-    details summary:hover { background: rgba(217,107,90,0.07); }
-    .unmatched-list {
-      padding: 0 14px 14px;
-      font-size: 0.85rem;
-      color: #9a3a2a;
-      line-height: 1.9;
-      font-weight: 600;
-    }
-
-    footer {
-      text-align: center;
-      padding: 32px 16px 0;
-      font-size: 0.82rem;
-      color: var(--text-light);
-      font-weight: 600;
-    }
-
-    @media (max-width: 600px) {
-      .site-header { padding: 32px 16px 44px; }
-      .card { border-radius: var(--radius-md); }
-      .toolbar { gap: 6px; }
-      .btn-tool { padding: 9px 12px; font-size: 0.82rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="/static/style.css"/>
 </head>
 <body>
 
 <header class="site-header">
-  <div class="deco-strip"></div>
-  <div class="emoji-row">🌿 🍄 🌸 🐝 🌻</div>
+  <div class="site-header__deco-strip"></div>
+  <div class="lang-switcher" id="lang-switcher">
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="pl">PL</button>
+  </div>
   <h1>Catalog<span>Scanner</span></h1>
-  <p>Upload a video or screenshot from Animal Crossing: New Horizons to scan your items.</p>
+  <p data-i18n="header_subtitle">Upload a video or screenshot from Animal Crossing: New Horizons to scan your items.</p>
 </header>
 
 <div class="wrapper">
 
   <!-- Upload Card -->
   <div class="card">
-    <div class="card-title">🎒 Upload &amp; Scan</div>
+    <div class="card__title" data-i18n="card_upload_title">🎒 Upload &amp; Scan</div>
     <form id="scan-form">
 
-      <div class="form-row">
-        <label>Video or Screenshot</label>
+      <div class="field">
+        <label data-i18n="label_file">Video or Screenshot</label>
         <div class="drop-zone" id="drop-zone">
-          <div class="dz-icon">📼</div>
-          <div class="dz-title">Drop your file here</div>
-          <p class="dz-sub">or click to browse &bull; MP4, MOV, AVI, MKV, PNG, JPG &bull; max 500&nbsp;MB</p>
-          <input type="file" id="file-input" name="file"
+          <div class="drop-zone__icon">📼</div>
+          <div class="drop-zone__title" data-i18n="dropzone_title">Drop your file here</div>
+          <p class="drop-zone__sub" data-i18n="dropzone_sub">or click to browse &bull; MP4, MOV, AVI, MKV, PNG, JPG &bull; max 500&nbsp;MB</p>
+          <input type="file" id="file-input" name="file" class="drop-zone__input"
                  accept=".mp4,.mov,.avi,.mkv,.png,.jpg,.jpeg" required />
         </div>
-        <div id="file-name"></div>
+        <div id="file-name" class="drop-zone__filename"></div>
       </div>
 
-      <div class="row-2col">
-        <div class="form-row">
-          <label>📋 Scan Mode</label>
+      <div class="field-group field-group--2col">
+        <div class="field">
+          <label data-i18n="label_mode">📋 Scan Mode</label>
           <select name="mode" id="mode-select">
             {% for m in modes %}
             <option value="{{ m }}">{{ mode_labels[m] }}</option>
             {% endfor %}
           </select>
         </div>
-        <div class="form-row">
-          <label>🌐 Language</label>
+        <div class="field">
+          <label data-i18n="label_locale">🌐 Language</label>
           <select name="locale" id="locale-select">
             {% for l in locales %}
             <option value="{{ l }}">{{ locale_labels[l] }}</option>
@@ -535,55 +60,55 @@
         </div>
       </div>
 
-      <div class="form-row">
-        <div class="checkbox-row">
-          <input type="checkbox" id="for-sale" name="for_sale" value="true" />
-          <label for="for-sale" class="cb-label">
-            🏷️ For-sale items only
-            <small>Catalog mode: skip items not available for purchase</small>
+      <div class="field">
+        <div class="checkbox">
+          <input type="checkbox" id="for-sale" name="for_sale" value="true" class="checkbox__input" />
+          <label for="for-sale" class="checkbox__label">
+            <span data-i18n="checkbox_forsale">🏷️ For-sale items only</span>
+            <small data-i18n="checkbox_forsale_sub">Catalog mode: skip items not available for purchase</small>
           </label>
         </div>
       </div>
 
-      <button type="submit" id="scan-btn" class="btn-submit">🔍 Start Scanning!</button>
+      <button type="submit" id="scan-btn" class="btn btn--submit" data-i18n="btn_scan">🔍 Start Scanning!</button>
 
-      <div id="progress-wrap">
-        <div class="progress-bar-track">
-          <div class="progress-bar-fill" id="progress-fill"></div>
+      <div id="progress-wrap" class="progress">
+        <div class="progress__track">
+          <div class="progress__fill" id="progress-fill"></div>
         </div>
-        <div id="progress-label">
-          <span class="nook-dots">Tom Nook is processing your catalog</span>
+        <div id="progress-label" class="progress__label">
+          <span class="progress__dots" data-i18n="progress_text">Tom Nook is processing your catalog</span>
         </div>
       </div>
 
-      <div id="error-box"></div>
+      <div id="error-box" class="scan-form__error"></div>
     </form>
   </div>
 
   <!-- Results Card -->
-  <div class="card" id="results">
-    <div class="results-header">
-      <div class="card-title" style="margin:0;padding:0;border:none;">🌟 Scan Results</div>
+  <div class="card results" id="results">
+    <div class="results__header">
+      <div class="card-title card-title--flat" data-i18n="card_results_title">🌟 Scan Results</div>
       <span class="badge" id="result-count">0 items</span>
     </div>
 
-    <div class="meta-row">
-      <div class="meta-chip">Mode: <span id="meta-mode">—</span></div>
-      <div class="meta-chip">Locale: <span id="meta-locale">—</span></div>
+    <div class="meta">
+      <div class="meta__chip"><span data-i18n="meta_mode_label">Mode:</span> <span id="meta-mode">—</span></div>
+      <div class="meta__chip"><span data-i18n="meta_locale_label">Locale:</span> <span id="meta-locale">—</span></div>
     </div>
 
     <div class="toolbar">
-      <input type="search" id="search-box" placeholder="🔎 Filter items…" />
-      <button class="btn-tool btn-copy" id="copy-btn">📋 Copy</button>
-      <button class="btn-tool btn-export" id="export-btn">⬇ Export .txt</button>
+      <input type="search" id="search-box" class="toolbar__search" placeholder="🔎 Filter items…" data-i18n-placeholder="search_placeholder" />
+      <button class="btn btn--tool btn--copy" id="copy-btn" data-i18n="btn_copy">📋 Copy</button>
+      <button class="btn btn--tool btn--export" id="export-btn" data-i18n="btn_export">⬇ Export .txt</button>
     </div>
 
-    <div class="table-wrap">
+    <div class="results-table">
       <table>
         <thead>
           <tr>
-            <th class="num-cell">#</th>
-            <th>Item Name</th>
+            <th class="results-table__num-cell" data-i18n="table_num">#</th>
+            <th data-i18n="table_item">Item Name</th>
           </tr>
         </thead>
         <tbody id="result-tbody"></tbody>
@@ -595,156 +120,29 @@
 
 </div><!-- /.wrapper -->
 
-<footer>🍃 CatalogScanner &bull; Animal Crossing: New Horizons</footer>
+<footer class="site-footer">
+  <span data-i18n="footer_text">🍃 CatalogScanner &bull; Animal Crossing: New Horizons</span>
+  &ensp;
+  <a href="https://github.com/adv3r/CatalogScanner-WebUI" target="_blank" rel="noopener noreferrer"
+     aria-label="GitHub repository"
+     class="site-footer__github-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 0C5.37 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577
+               0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757
+               -1.089-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304
+               3.492.997.108-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93
+               0-1.31.468-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176
+               0 0 1.008-.322 3.3 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404
+               2.29-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176
+               .77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.625-5.479 5.921
+               .43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293
+               0 .322.216.694.825.576C20.565 21.796 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+    </svg>
+    GitHub
+  </a>
+</footer>
 
-<script>
-  // ── Drag & drop ────────────────────────────────────────────
-  const dropZone  = document.getElementById('drop-zone');
-  const fileInput = document.getElementById('file-input');
-  const fileNameEl = document.getElementById('file-name');
-
-  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-  dropZone.addEventListener('drop', e => {
-    e.preventDefault();
-    dropZone.classList.remove('dragover');
-    if (e.dataTransfer.files.length) {
-      fileInput.files = e.dataTransfer.files;
-      fileNameEl.textContent = '📎 ' + fileInput.files[0].name;
-    }
-  });
-  fileInput.addEventListener('change', () => {
-    fileNameEl.textContent = fileInput.files.length ? '📎 ' + fileInput.files[0].name : '';
-  });
-
-  // ── Form submit ────────────────────────────────────────────
-  const form      = document.getElementById('scan-form');
-  const scanBtn   = document.getElementById('scan-btn');
-  const errorBox  = document.getElementById('error-box');
-  const progressW = document.getElementById('progress-wrap');
-  const fillEl    = document.getElementById('progress-fill');
-  const resultsEl = document.getElementById('results');
-
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    errorBox.innerHTML = '';
-    resultsEl.style.display = 'none';
-    scanBtn.disabled = true;
-    progressW.style.display = 'block';
-    animateProgress();
-
-    const data = new FormData(form);
-    if (!document.getElementById('for-sale').checked) {
-      data.set('for_sale', 'false');
-    }
-
-    try {
-      const resp = await fetch('/scan', { method: 'POST', body: data });
-      const json = await resp.json();
-      stopProgress();
-      if (!resp.ok || json.error) { showError(json.error || 'Unknown error'); return; }
-      renderResults(json);
-    } catch (err) {
-      stopProgress();
-      showError('Network error: ' + err.message);
-    } finally {
-      scanBtn.disabled = false;
-    }
-  });
-
-  // ── Progress animation ─────────────────────────────────────
-  let progressInterval = null;
-  let progressValue = 0;
-
-  function animateProgress() {
-    progressValue = 0;
-    fillEl.style.width = '0%';
-    progressInterval = setInterval(() => {
-      if (progressValue < 90) {
-        progressValue += (90 - progressValue) * 0.03;
-        fillEl.style.width = progressValue.toFixed(1) + '%';
-      }
-    }, 200);
-  }
-
-  function stopProgress() {
-    clearInterval(progressInterval);
-    fillEl.style.width = '100%';
-    setTimeout(() => { progressW.style.display = 'none'; fillEl.style.width = '0%'; }, 700);
-  }
-
-  // ── Error display ──────────────────────────────────────────
-  function showError(msg) {
-    errorBox.innerHTML = `<div class="alert alert-error">⚠️ <span>${escapeHtml(msg)}</span></div>`;
-  }
-
-  // ── Render results ─────────────────────────────────────────
-  let allItems = [];
-
-  function renderResults(data) {
-    allItems = data.items || [];
-    document.getElementById('meta-mode').textContent   = data.mode   || '—';
-    document.getElementById('meta-locale').textContent = data.locale || '—';
-    document.getElementById('result-count').textContent = allItems.length + ' item' + (allItems.length !== 1 ? 's' : '');
-    renderTable(allItems);
-
-    const unmatchedWrap = document.getElementById('unmatched-wrap');
-    if (data.unmatched && data.unmatched.length > 0) {
-      unmatchedWrap.innerHTML = `
-        <details>
-          <summary>⚠️ ${data.unmatched.length} unrecognised OCR string${data.unmatched.length !== 1 ? 's' : ''}</summary>
-          <div class="unmatched-list">${data.unmatched.map(escapeHtml).join('<br/>')}</div>
-        </details>`;
-    } else {
-      unmatchedWrap.innerHTML = '';
-    }
-
-    resultsEl.style.display = 'block';
-    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function renderTable(items) {
-    const tbody = document.getElementById('result-tbody');
-    tbody.innerHTML = items.length === 0
-      ? `<tr><td colspan="2" style="text-align:center;color:var(--text-light);padding:28px;font-weight:700;">No items found 🌿</td></tr>`
-      : items.map((item, i) =>
-          `<tr><td class="num-cell">${i + 1}</td><td>${escapeHtml(item)}</td></tr>`
-        ).join('');
-    document.getElementById('result-count').textContent =
-      items.length + ' item' + (items.length !== 1 ? 's' : '');
-  }
-
-  // ── Filter ─────────────────────────────────────────────────
-  document.getElementById('search-box').addEventListener('input', function () {
-    const q = this.value.toLowerCase().trim();
-    renderTable(q ? allItems.filter(i => i.toLowerCase().includes(q)) : allItems);
-  });
-
-  // ── Copy ───────────────────────────────────────────────────
-  document.getElementById('copy-btn').addEventListener('click', async () => {
-    if (!allItems.length) return;
-    await navigator.clipboard.writeText(allItems.join('\n')).catch(() => null);
-    const btn = document.getElementById('copy-btn');
-    btn.textContent = '✅ Copied!';
-    setTimeout(() => btn.textContent = '📋 Copy', 2200);
-  });
-
-  // ── Export .txt ─────────────────────────────────────────────
-  document.getElementById('export-btn').addEventListener('click', () => {
-    if (!allItems.length) return;
-    const a = Object.assign(document.createElement('a'), {
-      href: URL.createObjectURL(new Blob([allItems.join('\n')], { type: 'text/plain' })),
-      download: 'catalog_items.txt',
-    });
-    a.click();
-  });
-
-  // ── Helpers ─────────────────────────────────────────────────
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-</script>
+<script src="/static/i18n.js"></script>
+<script src="/static/script.js"></script>
 </body>
 </html>

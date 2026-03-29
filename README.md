@@ -142,7 +142,7 @@ This project is a fork of and fully based on **CatalogScanner** by [Ehsan Kia](h
 > **Original repository:** https://github.com/EhsanKia/CatalogScanner  
 > **License:** MIT — Copyright (c) 2020 Ehsan Kia
 
-All core scanning logic (`scanner.py`, `catalog.py`, `recipes.py`, `critters.py`, `music.py`, `reactions.py`, `storage.py`, `common.py`) and item data (`items/`, `critters/`, `music/`, `recipes/`, `reactions/`) belong to the original project and its contributors.
+All core scanning logic belong to the original project and its contributors.
 
 The web UI layer (FastAPI server, HTML/CSS interface, Dockerfile, Compose config) was developed with the assistance of **GitHub Copilot**.
 
